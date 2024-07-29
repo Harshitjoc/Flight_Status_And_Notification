@@ -36,7 +36,7 @@ const FlightTable = () => {
 
   const sendEmailNotification = () => {
     const flightDetails = delayedFlights.map(flight =>
-      `Flight ${flight.flightNumber} scheduled to depart at ${format(new Date(flight.departureTime), 'Pp')} is delayed.`).join('\n');
+      `Flight ${flight.flightNumber} scheduled to depart at "${format(new Date(flight.departureTime), 'Pp')}" is delayed.`).join('\n');
 
     axios.post('http://localhost:3001/send-email', {
       email: 'your_email',

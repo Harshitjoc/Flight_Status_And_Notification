@@ -23,7 +23,7 @@ app.post('/send-email', (req, res) => {
     });
 
     const mailOptions = {
-        from: process.env.EMAIL,
+        from: `"Flights Delayed" <${process.env.EMAIL}>`,
         to: email,
         subject: subject,
         text: text
