@@ -3,6 +3,7 @@ import axios from 'axios';
 import FlightRow from './FlightRow';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import styles from '../FlightTable.css';
+import { format } from 'date-fns';
 
 const FlightTable = () => {
   const [flights, setFlights] = useState([]);
@@ -35,7 +36,7 @@ const FlightTable = () => {
 
   const sendEmailNotification = () => {
     const flightDetails = delayedFlights.map(flight =>
-      `Flight ${flight.flightNumber} scheduled to depart at ${flight.departureTime} is delayed.`).join('\n');
+      `Flight ${flight.flightNumber} scheduled to depart at ${format(new Date(flight.departureTime), 'Pp')} is delayed.`).join('\n');
 
     axios.post('http://localhost:3001/send-email', {
       email: 'your_email',

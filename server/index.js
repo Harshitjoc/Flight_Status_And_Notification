@@ -17,13 +17,13 @@ app.post('/send-email', (req, res) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.USER,
+            user: process.env.EMAIL,
             pass: process.env.PASS
         },
     });
 
     const mailOptions = {
-        from: process.env.USER,
+        from: process.env.EMAIL,
         to: email,
         subject: subject,
         text: text

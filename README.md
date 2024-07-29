@@ -85,6 +85,12 @@ The project is divided into two main parts:
 - `src/components/FlightTable.js`: The main React component that fetches flight data from an API and displays it in a table.
 - `src/index.js`: The entry point for the React application.
 
+### Environment Variables
+The backend server uses the following environment variables:
+
+- EMAIL: The email address from which notifications will be sent.
+- PASS: The password for the email account.
+
 ## Usage
 
 1. Ensure both the backend and frontend servers are running.
