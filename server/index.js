@@ -10,6 +10,10 @@ const port = process.env.PORT || 3001;
 app.use(cors())
 app.use(bodyParser.json());
 
+app.post('/', (res, req) => {
+    res.send("Hello World")
+})
+
 app.post('/send-email', (req, res) => {
     const { subject, text } = req.body;
     // console.log(req.body);
