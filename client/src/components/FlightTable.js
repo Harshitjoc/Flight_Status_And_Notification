@@ -21,7 +21,7 @@ const FlightTable = () => {
     };
 
     fetchFlights();
-    const interval = setInterval(fetchFlights, 10000);
+    const interval = setInterval(fetchFlights, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -39,7 +39,6 @@ const FlightTable = () => {
       `Flight ${flight.flightNumber} scheduled to depart at "${format(new Date(flight.departureTime), 'Pp')}" is delayed.`).join('\n');
 
     axios.post('http://localhost:3001/send-email', {
-      email: 'your_email',
       subject: 'Delayed Flights Notification',
       text: `The following flights are delayed:\n\n${flightDetails}`
     }).then(response => {
