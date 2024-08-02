@@ -11,20 +11,20 @@ app.use(cors())
 app.use(bodyParser.json());
 
 app.post('/send-email', (req, res) => {
-    const { email, subject, text } = req.body;
+    const { subject, text } = req.body;
     // console.log(req.body);
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.EMAIL,
-            pass: process.env.PASS
+            user: process.env.SENDER_EMAIL,
+            pass: process.env.SENDER_EMAIL_PASS
         },
     });
 
     const mailOptions = {
-        from: `"Flights Delayed" <${process.env.EMAIL}>`,
-        to: email,
+        from: `"Flights Delayed" <${process.env.SENDER_EMAIL}>`,
+        to: process.env.RECEIVER_EMAIL,
         subject: subject,
         text: text
     };
