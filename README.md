@@ -59,10 +59,6 @@ This project is a flight status board built with ReactJS that displays the statu
     npm install
     ```
 
-3. Add Receiver Email in `FlightTable.js`
-
-    Add your email in place of `your_email` in above file.
-
 4. Start the ReactJS development server:
 
     ```bash
@@ -88,8 +84,9 @@ The project is divided into two main parts:
 ### Environment Variables
 The backend server uses the following environment variables:
 
-- EMAIL: The email address from which notifications will be sent.
-- PASS: The password for the email account.
+- SENDER_EMAIL: The email address from which notifications will be sent.
+- SENDER_EMAIL_PASS: The password for the email account.
+- RECEIVER_EMAIL: The email address in which notifications will be received.
 
 ## Usage
 
