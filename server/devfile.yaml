@@ -1,0 +1,24 @@
+schemaVersion: 2.2.0
+metadata:
+  attributes:
+    metadata-name-field: generateName
+components:
+  - attributes:
+      controller.devfile.io/merge-contribution: true
+    container:
+      endpoints:
+        - exposure: public
+          name: app-url
+          protocol: https
+          targetPort: 8080
+      image: quay.io/devfile/universal-developer-image:ubi8-latest
+      memoryLimit: 1G
+      mountSources: true
+      sourceMapping: /projects
+      volumeMounts:
+        - name: npm
+          path: /home/user/.npm
+    name: tools
+  - name: npm
+    volume:
+      size: 1G
