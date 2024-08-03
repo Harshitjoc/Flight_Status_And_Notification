@@ -4,6 +4,8 @@ import FlightRow from './FlightRow';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import styles from '../FlightTable.css';
 import { format } from 'date-fns';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const FlightTable = () => {
   const [flights, setFlights] = useState([]);
@@ -53,25 +55,35 @@ const FlightTable = () => {
   }
 
   return (
-    <TableContainer component={Paper} className={styles.tableContainer} sx={{ marginBottom: '5rem' }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Flight Number</TableCell>
-            <TableCell>Airline</TableCell>
-            <TableCell>Origin</TableCell>
-            <TableCell>Destination</TableCell>
-            <TableCell>Departure Time</TableCell>
-            <TableCell>Status</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {flights.map((flight) => (
-            <FlightRow key={flight.id} flight={flight} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={flights.filter((flight) => (flight.flightNumber))}
+        getOptionLabel={(option) => option.flightNumber}
+        sx={{ width: 300, marginY: "10px" }}
+        renderInput={(params) => <TextField {...params} label="Flight No." />}
+      />
+      <TableContainer component={Paper} className={styles.tableContainer} sx={{ marginBottom: '5rem' }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Flight Number</TableCell>
+              <TableCell>Airline</TableCell>
+              <TableCell>Origin</TableCell>
+              <TableCell>Destination</TableCell>
+              <TableCell>Departure Time</TableCell>
+              <TableCell>Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {flights.map((flight) => (
+              <FlightRow key={flight.id} flight={flight} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 
