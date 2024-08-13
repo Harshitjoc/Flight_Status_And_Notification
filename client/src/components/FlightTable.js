@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import FlightRow from './FlightRow';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button } from '@mui/material';
 import styles from '../FlightTable.css';
 import { format } from 'date-fns';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import { Link } from 'react-router-dom';
+import { Link as MuiLink } from '@mui/material';
+import FlightDetailPage from '../pages/FlightDetailPage';
+
 
 const FlightTable = () => {
   const [flights, setFlights] = useState([]);
   const [error, setError] = useState(null);
   const [delayedFlights, setDelayedFlights] = useState([]);
+  const [search, setSearch] = useState([]);
+  const [searchedFlights, setSearchedFlights] = useState(false);
 
   useEffect(() => {
     const fetchFlights = async () => {
@@ -56,33 +62,70 @@ const FlightTable = () => {
 
   return (
     <>
-      <Autocomplete
-        disablePortal
-        id="combo-box-demo"
-        options={flights.filter((flight) => (flight.flightNumber))}
-        getOptionLabel={(option) => option.flightNumber}
-        sx={{ width: 300, marginY: "10px" }}
-        renderInput={(params) => <TextField {...params} label="Flight No." />}
-      />
-      <TableContainer component={Paper} className={styles.tableContainer} sx={{ marginBottom: '5rem' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Flight Number</TableCell>
-              <TableCell>Airline</TableCell>
-              <TableCell>Origin</TableCell>
-              <TableCell>Destination</TableCell>
-              <TableCell>Departure Time</TableCell>
-              <TableCell>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {flights.map((flight) => (
-              <FlightRow key={flight.id} flight={flight} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "15px" }}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={flights}
+          getOptionLabel={(option) => option.flightNumber || ""}
+          sx={{ width: 300, marginY: "10px" }}
+          onChange={(e, newValue) => {
+            console.log(newValue)
+            setSearch(newValue);
+          }}
+          renderInput={(params) => <TextField {...params} label="Flight No." />}
+          value={search}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            console.log("click")
+            const flight = flights.find(flight => flight.flightNumber === search.flightNumber);
+            if (flight) {
+              setSearchedFlights(true)
+            }
+          }}
+        >Search</Button>
+      </div>
+      {
+        searchedFlights ?
+          <div>
+            <h2>Flight Details for {search.flightNumber}</h2>
+            <p>Airline: {search.airline}</p>
+            <p>Origin: {search.origin}</p>
+            <p>Destination: {search.destination}</p>
+            <p>Departure Time: {format(new Date(search.departureTime), 'Pp')}</p>
+            <p>Status: {search.status}</p>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setSearchedFlights(false)
+                setSearch(null)
+              }}
+            >Back</Button>
+          </div> :
+          <TableContainer component={Paper} className={styles.tableContainer} sx={{ marginBottom: '5rem' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Flight Number</TableCell>
+                  <TableCell>Airline</TableCell>
+                  <TableCell>Origin</TableCell>
+                  <TableCell>Destination</TableCell>
+                  <TableCell>Departure Time</TableCell>
+                  <TableCell>Status</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {flights.map((flight) => (
+                  <FlightRow key={flight.id} flight={flight} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+      }
     </>
   );
 };
